@@ -10,6 +10,11 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: SonarCloudPrepare@2
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'imrpsingh'
+    scannerMode: 'Other'
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -30,3 +35,9 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'Maven_Artifact'
     publishLocation: 'Container'
+- task: SonarCloudAnalyze@2
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+- task: SonarCloudPublish@2
+  inputs:
+    pollingTimeoutSec: '300'
